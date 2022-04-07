@@ -53,7 +53,7 @@ namespace SubscriberAPI.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Su_Id"), 1L, 1);
 
-                    b.Property<int>("AddressModel")
+                    b.Property<int>("Su_AdressAd_Id")
                         .HasColumnType("int");
 
                     b.Property<string>("Su_FirstName")
@@ -69,8 +69,7 @@ namespace SubscriberAPI.Migrations
 
                     b.HasKey("Su_Id");
 
-                    b.HasIndex("AddressModel")
-                        .IsUnique();
+                    b.HasIndex("Su_AdressAd_Id");
 
                     b.ToTable("Tbl_Subscribers");
                 });
@@ -78,18 +77,12 @@ namespace SubscriberAPI.Migrations
             modelBuilder.Entity("SubscriberAPI.Models.SubscriberModel", b =>
                 {
                     b.HasOne("SubscriberAPI.Models.AddressModel", "Su_Adress")
-                        .WithOne("subscriberModel")
-                        .HasForeignKey("SubscriberAPI.Models.SubscriberModel", "AddressModel")
-                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .WithMany()
+                        .HasForeignKey("Su_AdressAd_Id")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Su_Adress");
-                });
-
-            modelBuilder.Entity("SubscriberAPI.Models.AddressModel", b =>
-                {
-                    b.Navigation("subscriberModel")
-                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

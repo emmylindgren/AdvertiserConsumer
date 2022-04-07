@@ -11,8 +11,8 @@ using SubscriberAPI.Data;
 namespace SubscriberAPI.Migrations
 {
     [DbContext(typeof(Database))]
-    [Migration("20220407083324_ChangedName")]
-    partial class ChangedName
+    [Migration("20220407120456_IntitialCreate")]
+    partial class IntitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -42,7 +42,13 @@ namespace SubscriberAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("Su_Id")
+                        .HasColumnType("int");
+
                     b.HasKey("Ad_Id");
+
+                    b.HasIndex("Su_Id")
+                        .IsUnique();
 
                     b.ToTable("Tbl_Address");
                 });
@@ -54,9 +60,6 @@ namespace SubscriberAPI.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Su_Id"), 1L, 1);
-
-                    b.Property<int>("Su_AdressAd_Id")
-                        .HasColumnType("int");
 
                     b.Property<string>("Su_FirstName")
                         .IsRequired()
@@ -71,20 +74,24 @@ namespace SubscriberAPI.Migrations
 
                     b.HasKey("Su_Id");
 
-                    b.HasIndex("Su_AdressAd_Id");
-
                     b.ToTable("Tbl_Subscribers");
+                });
+
+            modelBuilder.Entity("SubscriberAPI.Models.AddressModel", b =>
+                {
+                    b.HasOne("SubscriberAPI.Models.SubscriberModel", "Subscriber")
+                        .WithOne("Su_Adress")
+                        .HasForeignKey("SubscriberAPI.Models.AddressModel", "Su_Id")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+
+                    b.Navigation("Subscriber");
                 });
 
             modelBuilder.Entity("SubscriberAPI.Models.SubscriberModel", b =>
                 {
-                    b.HasOne("SubscriberAPI.Models.AddressModel", "Su_Adress")
-                        .WithMany()
-                        .HasForeignKey("Su_AdressAd_Id")
-                        .OnDelete(DeleteBehavior.Cascade)
+                    b.Navigation("Su_Adress")
                         .IsRequired();
-
-                    b.Navigation("Su_Adress");
                 });
 #pragma warning restore 612, 618
         }

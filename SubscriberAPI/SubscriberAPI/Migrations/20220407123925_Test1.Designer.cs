@@ -11,8 +11,8 @@ using SubscriberAPI.Data;
 namespace SubscriberAPI.Migrations
 {
     [DbContext(typeof(Database))]
-    [Migration("20220407082425_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20220407123925_Test1")]
+    partial class Test1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -44,7 +44,7 @@ namespace SubscriberAPI.Migrations
 
                     b.HasKey("Ad_Id");
 
-                    b.ToTable("Address");
+                    b.ToTable("Tbl_Address");
                 });
 
             modelBuilder.Entity("SubscriberAPI.Models.SubscriberModel", b =>
