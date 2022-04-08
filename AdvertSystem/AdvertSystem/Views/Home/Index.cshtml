@@ -2,21 +2,20 @@
     ViewData["Title"] = "Home Page";
 }
 
+<!-- Style i denna div skapar marginaler på sidorna -->
 <div style="margin: 0 auto; width: 60%;">
-    <h1 class="display-4">Välkommen</h1>
-    <div class="pb-3">
+	<h6>Välj ett alternativ för att fortsätta</h6>
+	
 	<form method="post" action="/">
       <div class ="form-check">
-          <input type="radio" class="form-check-input" value="sub" name="Select">
-          <label for="Subscriber" class="form-check-label" checked>Prenumerant</label>
+          <input type="radio" class="form-check-input" value="sub" name="Select" checked>
+          <label for="Subscriber" class="form-check-label">Prenumerant</label>
       </div>
-      <div class ="form-check">
+      <div class ="form-check" style="margin-bottom: 20px">
           <input type="radio" class="form-check-input" value ="co" name="Select">
           <label for="Company" class="form-check-label">Företag</label>
       </div>
-      <br />
-      <input type="submit" class="btn btn-primary" value="Gå vidare">
 
+      <input type="submit" class="btn btn-primary" value="Gå vidare">
     </form>
-</div>
 </div>
