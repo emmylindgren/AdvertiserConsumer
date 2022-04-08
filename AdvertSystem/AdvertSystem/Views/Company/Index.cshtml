@@ -1,0 +1,77 @@
+﻿@model IEnumerable<AdvertSystem.Models.CompanyModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Co_Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Co_Telephone)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Co_BillStreet)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Co_BillPostalCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Co_BillCity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Co_Steet)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Co_PostalCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Co_City)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Co_Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Co_Telephone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Co_BillStreet)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Co_BillPostalCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Co_BillCity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Co_Steet)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Co_PostalCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Co_City)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Co_OrgId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Co_OrgId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Co_OrgId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

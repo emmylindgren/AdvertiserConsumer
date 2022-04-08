@@ -3,6 +3,18 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4">Välkommen</h1>
+    <form method="post" action="/" style="width:100px">
+      <div class ="form-check">
+          <input type="radio" class="form-check-input" value="sub" name="Select">
+          <label for="Subscriber" class="form-check-label" checked>Prenumerant</label>
+      </div>
+      <div class ="form-check">
+          <input type="radio" class="form-check-input" value ="co" name="Select">
+          <label for="Company" class="form-check-label">Företag</label>
+      </div>
+      <br />
+      <input type="submit" value="Gå vidare">
+
+    </form>
 </div>

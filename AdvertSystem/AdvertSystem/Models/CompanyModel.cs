@@ -9,12 +9,21 @@ namespace AdvertSystem.Models
         [Key]
         public int Co_OrgId { get; set; }
 
+        [Required]
         public string Co_Name { get; set; } = string.Empty;
-
+        [Required]
         public int Co_Telephone { get; set; }
-
-        public AddressModel Co_Address { get; set; }
-
-        public AddressModel Co_BillingAddress { get; set; }
+        [Required]
+        public string Co_BillStreet { get; set; } = string.Empty;
+        [Required]
+        public int Co_BillPostalCode { get; set; }
+        [Required]
+        public string Co_BillCity{ get; set; } = string.Empty;
+        [Required]
+        public string Co_Steet { get; set; } = string.Empty;
+        [Required]
+        public int Co_PostalCode { get; set; }
+        [Required]
+        public string Co_City { get;set; } = string.Empty;
     }
 }

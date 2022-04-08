@@ -7,8 +7,6 @@ namespace AdvertSystem.Data
         {
         }
 
-        public DbSet<AddressModel> Address { get; set; }
-
         public DbSet<AdModel> Ads { get; set; }
 
         public DbSet<AnnonsorerModel> Annonsorer { get; set; }

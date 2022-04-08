@@ -9,9 +9,9 @@ namespace AdvertSystem.Models
         [Key]
         public int An_Id { get; set; }
 
-        public int An_SubId { get; set; }
+        public int? An_SubId { get; set; }
 
-        public CompanyModel An_CoId { get; set; }
+        public CompanyModel? An_CoId { get; set; }
 
     }
 }

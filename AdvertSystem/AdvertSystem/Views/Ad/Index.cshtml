@@ -1,0 +1,59 @@
+﻿@model IEnumerable<AdvertSystem.Models.AdModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Ads_Content)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ads_ProductPrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ads_Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Ads_Title)
+            </th>
+             <th>
+                @Html.DisplayNameFor(model => model.Ads_Annonsor)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ads_Content)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ads_ProductPrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ads_Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ads_Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Ads_Annonsor)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Ads_Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Ads_Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Ads_Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

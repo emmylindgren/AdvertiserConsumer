@@ -1,0 +1,69 @@
+﻿@model AdvertSystem.Models.CompanyModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>CompanyModel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Co_OrgId" />
+            <div class="form-group">
+                <label asp-for="Co_Name" class="control-label"></label>
+                <input asp-for="Co_Name" class="form-control" />
+                <span asp-validation-for="Co_Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Co_Telephone" class="control-label"></label>
+                <input asp-for="Co_Telephone" class="form-control" />
+                <span asp-validation-for="Co_Telephone" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Co_BillStreet" class="control-label"></label>
+                <input asp-for="Co_BillStreet" class="form-control" />
+                <span asp-validation-for="Co_BillStreet" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Co_BillPostalCode" class="control-label"></label>
+                <input asp-for="Co_BillPostalCode" class="form-control" />
+                <span asp-validation-for="Co_BillPostalCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Co_BillCity" class="control-label"></label>
+                <input asp-for="Co_BillCity" class="form-control" />
+                <span asp-validation-for="Co_BillCity" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Co_Steet" class="control-label"></label>
+                <input asp-for="Co_Steet" class="form-control" />
+                <span asp-validation-for="Co_Steet" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Co_PostalCode" class="control-label"></label>
+                <input asp-for="Co_PostalCode" class="form-control" />
+                <span asp-validation-for="Co_PostalCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Co_City" class="control-label"></label>
+                <input asp-for="Co_City" class="form-control" />
+                <span asp-validation-for="Co_City" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
