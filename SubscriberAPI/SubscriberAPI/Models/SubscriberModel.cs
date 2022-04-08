@@ -14,9 +14,13 @@ namespace SubscriberAPI.Models
 
         public string Su_LastName { get; set; } = string.Empty;
 
-        public int Su_PersonId { get; set; }
+        public long Su_PersonId { get; set; }
 
-        public AddressModel Su_Adress { get; set; }
+        public string Su_Street { get; set; } = string.Empty;
+
+        public int Su_PostalCode { get; set; }
+
+        public string Su_City { get; set; } = string.Empty;
 
     }
 

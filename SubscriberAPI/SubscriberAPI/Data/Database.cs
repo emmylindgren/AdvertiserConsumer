@@ -9,16 +9,14 @@ namespace SubscriberAPI.Data
 
         public DbSet<SubscriberModel> Subscribers { get; set; }
 
-        public DbSet<AddressModel> Address { get; set; }
-
-        
-        /*protected override void OnModelCreating(ModelBuilder modelBuilder)
+       
+        /*
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .Entity<SubscriberModel>()
                 .HasOne(e => e.Su_Adress)
-                .WithOne(a => a.Subscriber)
-                .HasForeignKey<AddressModel>(a => a.Su_Id)
+                .WithOne(i => i.)
                 .OnDelete(DeleteBehavior.ClientCascade);
         }*/
 

@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SubscriberAPI.Data;
 
@@ -10,9 +11,10 @@ using SubscriberAPI.Data;
 namespace SubscriberAPI.Migrations
 {
     [DbContext(typeof(Database))]
-    partial class DatabaseModelSnapshot : ModelSnapshot
+    [Migration("20220408121457_RemovedAddress")]
+    partial class RemovedAddress
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -41,8 +43,8 @@ namespace SubscriberAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long>("Su_PersonId")
-                        .HasColumnType("bigint");
+                    b.Property<int>("Su_PersonId")
+                        .HasColumnType("int");
 
                     b.Property<int>("Su_PostalCode")
                         .HasColumnType("int");

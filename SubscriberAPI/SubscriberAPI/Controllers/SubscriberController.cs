@@ -26,14 +26,14 @@ namespace SubscriberAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<SubscriberModel>>> GetSubscribers()
         {
-            return await _context.Subscribers.Include(m => m.Su_Adress).ToListAsync();
+            return await _context.Subscribers.ToListAsync();
         }
 
         // GET: api/Subscriber/5
         [HttpGet("{id}")]
         public async Task<ActionResult<SubscriberModel>> GetSubscriberModel(int id)
         {
-            var subscriberModel = await _context.Subscribers.Include(m => m.Su_Adress).SingleOrDefaultAsync(i => i.Su_Id == id);
+            var subscriberModel = await _context.Subscribers.FindAsync(id);
 
             if (subscriberModel == null)
             {
@@ -89,8 +89,7 @@ namespace SubscriberAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteSubscriberModel(int id)
         {
-            var subscriberModel = await _context.Subscribers.Include(m => m.Su_Adress).SingleOrDefaultAsync(i => i.Su_Id == id);
-
+            var subscriberModel = await _context.Subscribers.FindAsync(id);
             if (subscriberModel == null)
             {
                 return NotFound();
