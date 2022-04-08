@@ -11,8 +11,8 @@ using SubscriberAPI.Data;
 namespace SubscriberAPI.Migrations
 {
     [DbContext(typeof(Database))]
-    [Migration("20220408121457_RemovedAddress")]
-    partial class RemovedAddress
+    [Migration("20220408182100_SecondCreate")]
+    partial class SecondCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -43,8 +43,8 @@ namespace SubscriberAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Su_PersonId")
-                        .HasColumnType("int");
+                    b.Property<long>("Su_PersonId")
+                        .HasColumnType("bigint");
 
                     b.Property<int>("Su_PostalCode")
                         .HasColumnType("int");

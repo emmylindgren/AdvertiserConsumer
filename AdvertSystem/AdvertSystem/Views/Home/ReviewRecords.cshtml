@@ -1,0 +1,47 @@
+﻿@model AdvertSystem.Models.SubscriberModel
+
+@{
+	ViewBag.Titles = new {
+		FirstName = "Förnamn",
+		LastName = "Efternamn",
+		PersonId = "Personnummer",
+		Street = "Adress",
+		City = "Ort",
+		PostalCode = "Postnummer",
+	};
+}
+<div class="row">
+	<div class="col-md-4">
+		
+		<h3>Granska dina uppgifter</h3>
+
+		<div class="form-control mb-4 mt-4">
+			<h5>@ViewBag.Titles.FirstName</h5>
+			<p>@Model.Su_FirstName</p>
+
+			<h5>@ViewBag.Titles.LastName</h5>
+			<p>@Model.Su_LastName</p>
+
+			<h5>@ViewBag.Titles.PersonId</h5>
+			<p>@Model.Su_PersonId</p>
+
+			<h5>@ViewBag.Titles.Street</h5>
+			<p>@Model.Su_Street</p>
+
+			<h5>@ViewBag.Titles.PostalCode</h5>
+			<p>@Model.Su_PostalCode</p>
+
+			<h5>@ViewBag.Titles.City</h5>
+			<p>@Model.Su_City</p>
+		</div>
+		
+		<form method="post" action="">
+			<input type="submit" class="btn btn-primary" value="Ändra uppgifter">
+			<input type="submit" class="btn btn-primary" value="Gå vidare">
+			<p class="text-secondary">Om dina uppgifter ej stämmer, bör du ändra dem.<br/> Annars kan du gå vidare.</p>
+		</form>
+    </div>
+</div>
+
+
+
