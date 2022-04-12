@@ -57,7 +57,8 @@ namespace AdvertSystem.Controllers
             }
             catch (Exception e)
             {
-                ViewBag.Error = e.Message;
+				TempData["Error"] = e.Message;
+                return RedirectToAction("GetSubScriberId");
             }
 
             return View(subscriber);
@@ -94,6 +95,32 @@ namespace AdvertSystem.Controllers
                 ViewBag.Error = e.Message;
             }
             return View(subscriber);
+		}
+
+        [HttpPost]
+        public IActionResult EditSubscriber(SubscriberModel subscriber)
+		{
+			try
+			{
+				var json = JsonConvert.SerializeObject(subscriber);
+				var data = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
+				var response = _httpClient.PutAsync("subscriber/" + subscriber.Su_Id, data).Result;
+				if (response.IsSuccessStatusCode)
+				{
+                    TempData["Success"] = "Ändringar sparade.";
+					return RedirectToAction("ReviewRecords", new { id = subscriber.Su_Id });
+				}
+				else
+				{
+					ViewBag.Error = "Error: " + response.StatusCode;
+					return View();
+				}
+			}
+			catch (Exception e)
+			{
+				ViewBag.Error = e.Message;
+				return View();
+			}
 		}
 
 		[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

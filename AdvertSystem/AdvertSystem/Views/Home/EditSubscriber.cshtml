@@ -16,8 +16,12 @@
 		<form method="post" action="/Home/EditSubscriber/@Model.Su_Id">
 			
 			@foreach(var property in typeof(SubscriberModel).GetProperties()) {
-				@if (property.Name == "Su_Id") continue;
-				
+				@if (property.Name == "Su_Id")
+				{
+					<input type="hidden" name="@(property.Name)" value="@property.GetValue(Model)">
+					continue;
+				}
+
 				<label>@ViewBag.Titles.GetType().GetProperty(property.Name).GetValue(ViewBag.Titles)</label>
 				<input type="text" class="form-control mb-2" placeholder="" name="@(property.Name)" value="@(property.GetValue(Model))">
 			}
