@@ -34,13 +34,20 @@
 			<h5>@ViewBag.Titles.City</h5>
 			<p>@Model.Su_City</p>
 		</div>
+
+		<div style="display: flex; flex-direction: row" class="mt-4 mb-4">
+			<form method="get" action="/Home/EditSubscriber/@Model.Su_Id" style="margin-right: 8px;">
+				<input type="submit" class="btn btn-primary" value="Ändra uppgifter">
+			</form>
 		
-		<form method="post" action="">
-			<input type="submit" class="btn btn-primary" value="Ändra uppgifter">
-			<input type="submit" class="btn btn-primary" value="Gå vidare">
-			<p class="text-secondary">Om dina uppgifter ej stämmer, bör du ändra dem.<br/> Annars kan du gå vidare.</p>
-		</form>
-    </div>
+			<form method="get" action="" class="">
+				<input type="submit" class="btn btn-primary" value="Gå vidare">
+			</form>
+		</div>
+		
+		<p class="text-secondary">Om dina uppgifter ej stämmer, bör du ändra dem.<br/> Annars kan du gå vidare.</p>
+
+	</div>
 </div>
 
 

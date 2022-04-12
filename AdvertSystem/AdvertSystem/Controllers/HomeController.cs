@@ -47,42 +47,31 @@ namespace AdvertSystem.Controllers
         }
 
         [HttpGet]
-        public IActionResult ReviewRecords()
+        public async Task<IActionResult> ReviewRecords(int id)
 		{
-            return View();
+            SubscriberModel subscriber = null;
+
+            try
+            {
+                subscriber = await GetSubscriberFromAPI(id);
+            }
+            catch (Exception e)
+            {
+                ViewBag.Error = e.Message;
+            }
+
+            return View(subscriber);
 		}
 
         [HttpPost]
-        public async Task<IActionResult> GetSubscriberId(IFormCollection col)
+        public IActionResult GetSubscriberId(IFormCollection col)
         {
             if (!col.TryGetValue("SubId", out var subId))
             {
                 return View();
             }
-
-            SubscriberModel subscriber;
-
-            var response = await _httpClient.GetAsync("subscriber/" + subId);
-
-			// Om det ej finns någon prenumerant med angivet prenumerationsnummer
-			if ((int)response.StatusCode == 404)
-            {
-                ViewBag.Error = "Kunde ej hitta en prenumerant med detta prenumerationsnummer. Försök igen.";
-                return View();
-			}
-            // Om prenumerant hittad
-			else if ((int)response.StatusCode == 200)
-			{
-				var content = await response.Content.ReadAsStringAsync();
-				subscriber = JsonConvert.DeserializeObject<SubscriberModel>(content)!;
-			}
-			else
-			{
-				ViewBag.Error = "Något gick fel, försök igen.";
-                return View();
-			}
-
-            return View("ReviewRecords",subscriber);
+			
+            return RedirectToAction("ReviewRecords", new { id = subId });
         }
 		
         [HttpGet]
@@ -90,11 +79,48 @@ namespace AdvertSystem.Controllers
         {
             return View();
         }
+		
+        [HttpGet]
+		public async Task<IActionResult> EditSubscriber(int id)
+		{
+            SubscriberModel subscriber = null;
+			
+            try
+            {
+                subscriber = await GetSubscriberFromAPI(id);
+            }
+            catch (Exception e)
+            {
+                ViewBag.Error = e.Message;
+            }
+            return View(subscriber);
+		}
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+		[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        private async Task<SubscriberModel> GetSubscriberFromAPI(int subId)
+		{
+            var response = await _httpClient.GetAsync("subscriber/" + subId);
+
+            // Om det ej finns någon prenumerant med angivet prenumerationsnummer
+            if ((int)response.StatusCode == 404)
+            {
+                throw new Exception("Kunde ej hitta en prenumerant med detta prenumerationsnummer. Försök igen.");
+            }
+            // Om prenumerant hittad
+            else if ((int)response.StatusCode == 200)
+            {
+                var content = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<SubscriberModel>(content)!;
+            }
+            else
+            {
+                throw new Exception("Något gick fel, försök igen.");
+            }
         }
     }
 }

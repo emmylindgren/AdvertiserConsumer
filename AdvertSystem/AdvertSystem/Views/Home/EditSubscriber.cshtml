@@ -1,0 +1,33 @@
+﻿@model AdvertSystem.Models.SubscriberModel
+
+@{
+	ViewBag.Titles = new {
+		Su_FirstName = "Förnamn",
+		Su_LastName = "Efternamn",
+		Su_PersonId = "Personnummer",
+		Su_Street = "Adress",
+		Su_City = "Ort",
+		Su_PostalCode = "Postnummer",
+	};
+}
+<div class="row">
+	<div class="col-md-4">
+			
+		<form method="post" action="/Home/EditSubscriber/@Model.Su_Id">
+			
+			@foreach(var property in typeof(SubscriberModel).GetProperties()) {
+				@if (property.Name == "Su_Id") continue;
+				
+				<label>@ViewBag.Titles.GetType().GetProperty(property.Name).GetValue(ViewBag.Titles)</label>
+				<input type="text" class="form-control mb-2" placeholder="" name="@(property.Name)" value="@(property.GetValue(Model))">
+			}
+			
+			<input type="submit" class="btn btn-primary mb-2" value="Uppdatera">
+		</form>
+
+		<form method="get" action="/Home/ReviewRecords/@Model.Su_Id">
+			<input type="submit" class="btn btn-primary" value="Avbryt">
+		</form>
+		
+    </div>
+</div>
