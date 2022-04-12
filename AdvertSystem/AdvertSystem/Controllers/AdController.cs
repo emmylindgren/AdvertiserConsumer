@@ -44,10 +44,14 @@ namespace AdvertSystem.Controllers
             return View(adModel);
         }
 
-        // GET: Ad/Create
-        public IActionResult Create()
-        {
-            return View();
+		// GET: Ad/Create
+		public IActionResult Create(int id)
+		{
+			// Skickar med id för annonsör.
+			ViewBag.AnnonsorId = id;
+            // Nödvändig för att viewn ska rendera rätt.
+            AdModel am = new();
+            return View(am);
         }
 
         // POST: Ad/Create
