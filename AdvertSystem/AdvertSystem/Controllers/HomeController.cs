@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using Newtonsoft.Json;
+using AdvertSystem.Data;
 
 namespace AdvertSystem.Controllers
 {
@@ -10,9 +11,12 @@ namespace AdvertSystem.Controllers
         private readonly ILogger<HomeController> _logger;
 		private readonly HttpClient _httpClient;
 
-		public HomeController(ILogger<HomeController> logger)
+        private readonly Database _context;
+
+        public HomeController(ILogger<HomeController> logger, Database context)
         {
             _logger = logger;
+            _context = context;
             _httpClient = new HttpClient();
             // Ange relativa URL-er UTAN / innan.
             _httpClient.BaseAddress = new Uri("https://localhost:7044/api/");
@@ -61,7 +65,14 @@ namespace AdvertSystem.Controllers
                 return RedirectToAction("GetSubScriberId");
             }
 
-            return View(subscriber);
+            // Funkar ej pga det inte finns något i den tabellen.
+            /*
+            AnnonsorerModel annonsor = await _context.Annonsorer.FirstOrDefaultAsync(advertiser => advertiser.An_SubId == id);
+            ViewBag.An_Id = annonsor.An_Id;
+            */
+            ViewBag.An_Id = 0;
+
+			return View(subscriber);
 		}
 
         [HttpPost]
