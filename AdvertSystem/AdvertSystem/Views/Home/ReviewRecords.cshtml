@@ -2,12 +2,12 @@
 
 @{
 	ViewBag.Titles = new {
-		FirstName = "Förnamn",
-		LastName = "Efternamn",
-		PersonId = "Personnummer",
-		Street = "Adress",
-		City = "Ort",
-		PostalCode = "Postnummer",
+		Su_FirstName = "Förnamn",
+		Su_LastName = "Efternamn",
+		Su_PersonId = "Personnummer",
+		Su_Street = "Adress",
+		Su_City = "Ort",
+		Su_PostalCode = "Postnummer",
 	};
 }
 <div class="row">
@@ -15,24 +15,13 @@
 		
 		<h3>Granska dina uppgifter</h3>
 
-		<div class="form-control mb-4 mt-4">
-			<h5>@ViewBag.Titles.FirstName</h5>
-			<p>@Model.Su_FirstName</p>
+		<div class="form-control mt-4">
+			@foreach(var property in typeof(SubscriberModel).GetProperties()) {
+					@if (property.Name == "Su_Id") continue;
 
-			<h5>@ViewBag.Titles.LastName</h5>
-			<p>@Model.Su_LastName</p>
-
-			<h5>@ViewBag.Titles.PersonId</h5>
-			<p>@Model.Su_PersonId</p>
-
-			<h5>@ViewBag.Titles.Street</h5>
-			<p>@Model.Su_Street</p>
-
-			<h5>@ViewBag.Titles.PostalCode</h5>
-			<p>@Model.Su_PostalCode</p>
-
-			<h5>@ViewBag.Titles.City</h5>
-			<p>@Model.Su_City</p>
+					<h5>@ViewBag.Titles.GetType().GetProperty(property.Name).GetValue(ViewBag.Titles)</h5>
+					<p>@(property.GetValue(Model))</p>
+			}
 		</div>
 
 		<div style="display: flex; flex-direction: row" class="mt-4 mb-4">
