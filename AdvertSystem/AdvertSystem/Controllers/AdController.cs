@@ -58,7 +58,6 @@ namespace AdvertSystem.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Ads_Id,Ads_Content,Ads_ProductPrice,Ads_Price,Ads_Title")] AdModel adModel)
         {
             if (ModelState.IsValid)
