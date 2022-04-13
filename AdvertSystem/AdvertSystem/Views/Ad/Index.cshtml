@@ -4,56 +4,30 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Annonser</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Ads_Content)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Ads_ProductPrice)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Ads_Price)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Ads_Title)
-            </th>
-             <th>
-                @Html.DisplayNameFor(model => model.Ads_Annonsor)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Ads_Content)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Ads_ProductPrice)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Ads_Price)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Ads_Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Ads_Annonsor)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Ads_Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Ads_Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Ads_Id">Delete</a>
-            </td>
-        </tr>
+<div style="display: flex; flex-direction: row; flex-wrap: wrap">
+    @if(Model.Count() == 0)
+    {
+        <p class="text-secondary">Inga annonser hittades</p>
+    }
+
+@foreach(var item in Model){
+	<div class="form-control m-4 p-4" style="width: fit-content">
+		<h5>@Html.DisplayFor(modelItem => item.Ads_Title)</h5>
+		<p>@Html.DisplayFor(modelItem => item.Ads_Content)</p>
+		
+        <h5 class="text-success mb-4">@Html.DisplayFor(modelItem => item.Ads_ProductPrice) kr</h5>
+		
+        @if(item.Ads_Annonsor.An_CoId == null){
+            <h5 class="text-secondary">Privatannons</h5>
+            <p class="text-secondary">Privatannonser är gratis.</p>
+        }
+        else
+        {
+            <h5 class="text-secondary">Företagsannons</h5>
+            <p class="text-secondary">Företagsannnonser kostar @Html.DisplayFor(modelItem => item.Ads_Price) kr</p>
+        }
+    </div>
 }
-    </tbody>
-</table>
+</div>

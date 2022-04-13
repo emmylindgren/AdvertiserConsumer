@@ -15,31 +15,41 @@
 		Ads_Title = "Rubrik",
 		Ads_Annonsor = "EMIT",
 		Ads_Id = "EMIT",
-		Ads_Price = "EMIT",
+		Ads_Price = "Annonspris",
 	};
 }
 <div class="row">
 	<div class="col-md-4">
 			
-		<form method="post" action="/Ad/Create">
-			
+		<form method="post" action="/Ad/Create/@ViewBag.An_Id">
+
+			<input type="hidden" name="Ads_Price" value="@Model.Ads_Price">
+
 			@foreach(var property in typeof(AdModel).GetProperties()) {
+
 				// Om det är ett id, gör hidden.
 				@if (property.Name == "Ads_Id" || property.Name == "Ads_Annonsor")
 				{
 					<input type="hidden" name="@(property.Name)" value="@property.GetValue(Model)">
 					continue;
 				}
+				@if (property.Name == "Ads_Price")
+				{
+					<h4>@(ViewBag.Titles.GetType().GetProperty(property.Name).GetValue(ViewBag.Titles))</h4>
+					<p>@property.GetValue(Model) kr</p>
+					continue;
+				}
 				// Hela den här raden är rätt förvirrande,
 				// men den hämtar egentligen bara titeln åt
 				// fältet. Om == EMIT, så gör vi ingen input åt det fältet.
+
 				@if (ViewBag.Titles.GetType().GetProperty(property.Name).GetValue(ViewBag.Titles) == "EMIT")
 				{
 					continue;
 				}
 
 				<label>@ViewBag.Titles.GetType().GetProperty(property.Name).GetValue(ViewBag.Titles)</label>
-				<input type="text" class="form-control mb-2" placeholder="" name="@(property.Name)" value="@(property.GetValue(Model))">
+				<input type="text" class="form-control mb-2" placeholder="" name="@(property.Name)" value="">
 			}
 			
 			<input type="submit" class="btn btn-primary mb-2" value="Publicera annons">

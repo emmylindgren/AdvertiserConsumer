@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AdvertSystem.Migrations
 {
     [DbContext(typeof(Database))]
-    [Migration("20220413072502_intialmigration")]
-    partial class intialmigration
+    [Migration("20220413100220_InitalCreate")]
+    partial class InitalCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

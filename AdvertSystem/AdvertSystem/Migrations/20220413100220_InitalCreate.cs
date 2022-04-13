@@ -4,7 +4,7 @@
 
 namespace AdvertSystem.Migrations
 {
-    public partial class intialmigration : Migration
+    public partial class InitalCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

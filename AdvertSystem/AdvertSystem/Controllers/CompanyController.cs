@@ -40,7 +40,8 @@ namespace AdvertSystem.Controllers
             {
                 return NotFound();
             }
-
+            var am = await _context.Annonsorer.FirstOrDefaultAsync(m => m.An_CoId == companyModel);
+            ViewBag.An_Id = am.An_Id;
             return View(companyModel);
         }
 

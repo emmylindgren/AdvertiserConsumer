@@ -23,7 +23,7 @@ namespace AdvertSystem.Controllers
         // GET: Ad
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Ads.Include(m => m.Ads_Annonsor).ToListAsync());
+            return View(await _context.Ads.Include(m => m.Ads_Annonsor).ThenInclude(annonsor => annonsor.An_CoId).ToListAsync());
         }
 
         // GET: Ad/Details/5
@@ -45,12 +45,25 @@ namespace AdvertSystem.Controllers
         }
 
 		// GET: Ad/Create
-		public IActionResult Create(int id)
+		public async Task<IActionResult> CreateAsync(int id)
 		{
-			// Skickar med id för annonsör.
-			ViewBag.AnnonsorId = id;
             // Nödvändig för att viewn ska rendera rätt.
             AdModel am = new();
+            // Skickar med id för annonsör.
+            AnnonsorerModel annonsor = await _context.Annonsorer.Include(annonsor => annonsor.An_CoId).FirstOrDefaultAsync(am => am.An_Id == id);
+
+            am.Ads_Annonsor = annonsor;
+
+            if (annonsor.An_CoId == null)
+			{
+                am.Ads_Price = 0;
+            }
+			else
+			{
+                am.Ads_Price = 40;
+			}
+
+            ViewBag.An_Id = id;
             return View(am);
         }
 
@@ -58,8 +71,12 @@ namespace AdvertSystem.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        public async Task<IActionResult> Create([Bind("Ads_Id,Ads_Content,Ads_ProductPrice,Ads_Price,Ads_Title")] AdModel adModel)
+        public async Task<IActionResult> Create(int id,/*[Bind("Ads_Id,Ads_Content,Ads_ProductPrice,Ads_Price,Ads_Title,Ads_Annonsor")]*/ AdModel adModel)
         {
+            AnnonsorerModel annonsor = await _context.Annonsorer.Include(annonsor => annonsor.An_CoId).FirstOrDefaultAsync(am => am.An_Id == id);
+
+            adModel.Ads_Annonsor = annonsor;
+
             if (ModelState.IsValid)
             {
                 _context.Add(adModel);
