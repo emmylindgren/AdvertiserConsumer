@@ -107,13 +107,34 @@ namespace SubscriberAPI.Controllers
 
         // POST: api/Subscriber
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        public async Task<ActionResult<SubscriberModel>> PostSubscriberModel(SubscriberModel subscriberModel)
+        [HttpPost("{xml=false}")]
+        public async Task<ActionResult<SubscriberModel>> PostSubscriberModel(bool xml, [FromForm]IFormFile uploadFile, SubscriberModel subscriberModel)
         {
-            _context.Subscribers.Add(subscriberModel);
-            await _context.SaveChangesAsync();
+            List<SubscriberModel> subscriberList;
 
-            return CreatedAtAction("GetSubscriberModel", new { id = subscriberModel.Su_Id }, subscriberModel);
+
+            if (uploadFile is not null && xml)
+			{
+                if (uploadFile.Length > 0)
+                {
+
+                    XmlSerializer serializer = new(typeof(List<SubscriberModel>));
+
+					subscriberList = serializer.Deserialize(uploadFile.OpenReadStream()) as List<SubscriberModel>;
+
+                    _context.Subscribers.AddRange(subscriberList);
+					await _context.SaveChangesAsync();
+                    return Ok();
+                }
+				return BadRequest();
+			}
+			else
+			{
+                _context.Subscribers.Add(subscriberModel);
+                await _context.SaveChangesAsync();
+
+                return CreatedAtAction("GetSubscriberModel", new { id = subscriberModel.Su_Id }, subscriberModel);
+            }
         }
 
         // DELETE: api/Subscriber/5
