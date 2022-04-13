@@ -8,6 +8,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SubscriberAPI.Data;
 using SubscriberAPI.Models;
+using System.Xml.Serialization;
+using System.Xml;
+using System.Text;
 
 namespace SubscriberAPI.Controllers
 {
@@ -23,10 +26,38 @@ namespace SubscriberAPI.Controllers
         }
 
         // GET: api/Subscriber
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<SubscriberModel>>> GetSubscribers()
+        [HttpGet("{xml=false}")]
+        public async Task<ActionResult<IEnumerable<SubscriberModel>>> GetSubscribers([FromQuery] bool xml)
         {
-            return await _context.Subscribers.ToListAsync();
+			if (xml)
+			{
+                var subscribers = await _context.Subscribers.ToListAsync();
+                string xmlString = string.Empty;
+
+                XmlSerializer serializer = new XmlSerializer(typeof(List<SubscriberModel>));
+                using (var sww = new StringWriter())
+                {
+                    using XmlWriter writer = XmlWriter.Create(sww);
+                    serializer.Serialize(writer, subscribers);
+                    xmlString = sww.ToString();
+                }
+
+                var cd = new System.Net.Mime.ContentDisposition
+                {
+					// for example foo.bak
+					FileName = "subscribers.xml",
+
+					// always prompt the user for downloading, set to true if you want 
+					// the browser to try to show the file inline
+					Inline = false,
+                };
+                Response.Headers.Add("Content-Disposition", cd.ToString());
+				return File(Encoding.UTF8.GetBytes(xmlString), "application/xml");
+			}
+			else
+            {
+                return await _context.Subscribers.ToListAsync();
+            }
         }
 
         // GET: api/Subscriber/5
