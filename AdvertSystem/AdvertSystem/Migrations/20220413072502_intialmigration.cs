@@ -4,7 +4,7 @@
 
 namespace AdvertSystem.Migrations
 {
-    public partial class RemovedAddress : Migration
+    public partial class intialmigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -12,10 +12,11 @@ namespace AdvertSystem.Migrations
                 name: "Tbl_Companies",
                 columns: table => new
                 {
-                    Co_OrgId = table.Column<int>(type: "int", nullable: false)
+                    Co_Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Co_Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Co_Telephone = table.Column<int>(type: "int", nullable: false),
+                    Co_OrgId = table.Column<int>(type: "int", nullable: false),
                     Co_BillStreet = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Co_BillPostalCode = table.Column<int>(type: "int", nullable: false),
                     Co_BillCity = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -25,7 +26,7 @@ namespace AdvertSystem.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Tbl_Companies", x => x.Co_OrgId);
+                    table.PrimaryKey("PK_Tbl_Companies", x => x.Co_Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -35,16 +36,16 @@ namespace AdvertSystem.Migrations
                     An_Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     An_SubId = table.Column<int>(type: "int", nullable: true),
-                    An_CoIdCo_OrgId = table.Column<int>(type: "int", nullable: true)
+                    An_CoIdCo_Id = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Tbl_Annonsorer", x => x.An_Id);
                     table.ForeignKey(
-                        name: "FK_Tbl_Annonsorer_Tbl_Companies_An_CoIdCo_OrgId",
-                        column: x => x.An_CoIdCo_OrgId,
+                        name: "FK_Tbl_Annonsorer_Tbl_Companies_An_CoIdCo_Id",
+                        column: x => x.An_CoIdCo_Id,
                         principalTable: "Tbl_Companies",
-                        principalColumn: "Co_OrgId");
+                        principalColumn: "Co_Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -53,10 +54,10 @@ namespace AdvertSystem.Migrations
                 {
                     Ads_Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    Ads_Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Ads_Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Ads_ProductPrice = table.Column<int>(type: "int", nullable: false),
                     Ads_Price = table.Column<int>(type: "int", nullable: false),
-                    Ads_Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Ads_AnnonsorAn_Id = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -76,9 +77,9 @@ namespace AdvertSystem.Migrations
                 column: "Ads_AnnonsorAn_Id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Tbl_Annonsorer_An_CoIdCo_OrgId",
+                name: "IX_Tbl_Annonsorer_An_CoIdCo_Id",
                 table: "Tbl_Annonsorer",
-                column: "An_CoIdCo_OrgId");
+                column: "An_CoIdCo_Id");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

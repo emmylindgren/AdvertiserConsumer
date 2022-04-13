@@ -2,65 +2,43 @@
 
 @{
     ViewData["Title"] = "Details";
+
+    ViewBag.Titles = new {
+		Co_Name = "Företagsnamn",
+		Co_Telephone = "Telefonnummer",
+        Co_OrgId = "Organisationsnummer",
+		Co_BillStreet = "Faktura Adress",
+		Co_BillPostalCode = "Faktura Postnummer",
+		Co_BillCity = "Faktura Ort",
+		Co_Steet = "Adress",
+        Co_PostalCode ="Postnummer",
+        Co_City = "Ort"
+	};
 }
 
-<h1>Details</h1>
+<div>
+    <h3>Granska dina uppgifter</h3>
 
-<div>
-    <h4>CompanyModel</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Co_Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Co_Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Co_Telephone)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Co_Telephone)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Co_BillStreet)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Co_BillStreet)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Co_BillPostalCode)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Co_BillPostalCode)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Co_BillCity)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Co_BillCity)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Co_Steet)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Co_Steet)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Co_PostalCode)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Co_PostalCode)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Co_City)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Co_City)
-        </dd>
-    </dl>
+    <div class="form-control mt-4">
+        @foreach(var property in typeof(CompanyModel).GetProperties()) {
+		        @if (property.Name == "Co_Id") continue;
+
+		        <h5>@ViewBag.Titles.GetType().GetProperty(property.Name).GetValue(ViewBag.Titles)</h5>
+		        <p>@(property.GetValue(Model))</p>
+        }
+    </div>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Co_OrgId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+
+
+<div style="display: flex; flex-direction: row" class="mt-4 mb-4">
+	<form method="get" action="/Company/Edit/@Model.Co_Id" style="margin-right: 8px;">
+		<input type="submit" class="btn btn-primary" value="Ändra uppgifter">
+	</form>
+		
+	<form method="get" action="/Ad/Create/@ViewBag.An_Id">
+		<input type="submit" class="btn btn-primary" value="Gå vidare">
+	</form>
 </div>
+
+<p class="text-secondary">Om dina uppgifter ej stämmer, bör du ändra dem.<br/> Annars kan du gå vidare.</p>
+

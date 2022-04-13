@@ -2,66 +2,46 @@
 
 @{
     ViewData["Title"] = "Edit";
+
+    ViewBag.Titles = new {
+		Co_Name = "Företagsnamn",
+		Co_Telephone = "Telefonnummer",
+        Co_OrgId = "Organisationsnummer",
+		Co_BillStreet = "Faktura Adress",
+		Co_BillPostalCode = "Faktura Postnummer",
+		Co_BillCity = "Faktura Ort",
+		Co_Steet = "Adress",
+        Co_PostalCode ="Postnummer",
+        Co_City = "Ort"
+	};
 }
 
-<h1>Edit</h1>
-
-<h4>CompanyModel</h4>
-<hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Co_OrgId" />
-            <div class="form-group">
-                <label asp-for="Co_Name" class="control-label"></label>
-                <input asp-for="Co_Name" class="form-control" />
-                <span asp-validation-for="Co_Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Co_Telephone" class="control-label"></label>
-                <input asp-for="Co_Telephone" class="form-control" />
-                <span asp-validation-for="Co_Telephone" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Co_BillStreet" class="control-label"></label>
-                <input asp-for="Co_BillStreet" class="form-control" />
-                <span asp-validation-for="Co_BillStreet" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Co_BillPostalCode" class="control-label"></label>
-                <input asp-for="Co_BillPostalCode" class="form-control" />
-                <span asp-validation-for="Co_BillPostalCode" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Co_BillCity" class="control-label"></label>
-                <input asp-for="Co_BillCity" class="form-control" />
-                <span asp-validation-for="Co_BillCity" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Co_Steet" class="control-label"></label>
-                <input asp-for="Co_Steet" class="form-control" />
-                <span asp-validation-for="Co_Steet" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Co_PostalCode" class="control-label"></label>
-                <input asp-for="Co_PostalCode" class="form-control" />
-                <span asp-validation-for="Co_PostalCode" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Co_City" class="control-label"></label>
-                <input asp-for="Co_City" class="form-control" />
-                <span asp-validation-for="Co_City" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
+            @foreach(var property in typeof(CompanyModel).GetProperties()) {
+				@if (property.Name == "Co_Id")
+				{
+					<input type="hidden" name="@(property.Name)" value="@property.GetValue(Model)">
+					continue;
+				}
+                @if (property.Name == "Co_OrgId")
+				{
+					<input type="hidden" name="@(property.Name)" value="@property.GetValue(Model)">
+					continue;
+				}
+
+				<label>@ViewBag.Titles.GetType().GetProperty(property.Name).GetValue(ViewBag.Titles)</label>
+				<input type="text" class="form-control mb-2" placeholder="" name="@(property.Name)" value="@(property.GetValue(Model))">
+			}
+			<input type="submit" class="btn btn-primary mb-2" value="Uppdatera">
+        </form>
+
+		<form method="get" action="/Company/Details/@Model.Co_Id">
+			<input type="submit" class="btn btn-primary" value="Avbryt">
+		</form>
+    </div>
 </div>
 
 @section Scripts {

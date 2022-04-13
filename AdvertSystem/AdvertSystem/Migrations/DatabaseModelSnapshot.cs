@@ -62,7 +62,7 @@ namespace AdvertSystem.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("An_Id"), 1L, 1);
 
-                    b.Property<int?>("An_CoIdCo_OrgId")
+                    b.Property<int?>("An_CoIdCo_Id")
                         .HasColumnType("int");
 
                     b.Property<int?>("An_SubId")
@@ -70,18 +70,18 @@ namespace AdvertSystem.Migrations
 
                     b.HasKey("An_Id");
 
-                    b.HasIndex("An_CoIdCo_OrgId");
+                    b.HasIndex("An_CoIdCo_Id");
 
                     b.ToTable("Tbl_Annonsorer");
                 });
 
             modelBuilder.Entity("AdvertSystem.Models.CompanyModel", b =>
                 {
-                    b.Property<int>("Co_OrgId")
+                    b.Property<int>("Co_Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Co_OrgId"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Co_Id"), 1L, 1);
 
                     b.Property<string>("Co_BillCity")
                         .IsRequired()
@@ -102,6 +102,9 @@ namespace AdvertSystem.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("Co_OrgId")
+                        .HasColumnType("int");
+
                     b.Property<int>("Co_PostalCode")
                         .HasColumnType("int");
 
@@ -112,7 +115,7 @@ namespace AdvertSystem.Migrations
                     b.Property<int>("Co_Telephone")
                         .HasColumnType("int");
 
-                    b.HasKey("Co_OrgId");
+                    b.HasKey("Co_Id");
 
                     b.ToTable("Tbl_Companies");
                 });
@@ -132,7 +135,7 @@ namespace AdvertSystem.Migrations
                 {
                     b.HasOne("AdvertSystem.Models.CompanyModel", "An_CoId")
                         .WithMany()
-                        .HasForeignKey("An_CoIdCo_OrgId");
+                        .HasForeignKey("An_CoIdCo_Id");
 
                     b.Navigation("An_CoId");
                 });

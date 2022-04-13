@@ -65,14 +65,20 @@ namespace AdvertSystem.Controllers
                 return RedirectToAction("GetSubScriberId");
             }
 
-            // Funkar ej pga det inte finns något i den tabellen.
-            /*
-            AnnonsorerModel annonsor = await _context.Annonsorer.FirstOrDefaultAsync(advertiser => advertiser.An_SubId == id);
-            ViewBag.An_Id = annonsor.An_Id;
-            */
-            ViewBag.An_Id = 0;
 
-			return View(subscriber);
+            bool entryExists = await _context.Annonsorer.AnyAsync(advertiser => advertiser.An_SubId == id);
+
+            if (!entryExists)
+            {
+                AnnonsorerModel annonsorerModel = new AnnonsorerModel{ An_SubId = id,};
+                await _context.Annonsorer.AddAsync(annonsorerModel);
+                _context.SaveChanges();
+            }
+
+            var model = await _context.Annonsorer.FirstOrDefaultAsync(advertiser => advertiser.An_SubId == id);
+
+            ViewBag.An_Id = model.An_Id;
+            return View(subscriber);
 		}
 
         [HttpPost]

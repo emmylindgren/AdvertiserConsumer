@@ -7,12 +7,14 @@ namespace AdvertSystem.Models
     public class CompanyModel
     {
         [Key]
-        public int Co_OrgId { get; set; }
+        public int Co_Id { get; set; }
 
         [Required]
         public string Co_Name { get; set; } = string.Empty;
         [Required]
         public int Co_Telephone { get; set; }
+        [Required]
+        public int Co_OrgId { get; set; }
         [Required]
         public string Co_BillStreet { get; set; } = string.Empty;
         [Required]
