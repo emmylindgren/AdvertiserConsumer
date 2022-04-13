@@ -168,6 +168,7 @@ namespace AdvertSystem.Controllers
                         throw;
                     }
                 }
+                TempData["Success"] = "Ändringar sparade.";
                 return RedirectToAction("Details", new { id = companyModel.Co_Id });
             }
             return View(companyModel);
