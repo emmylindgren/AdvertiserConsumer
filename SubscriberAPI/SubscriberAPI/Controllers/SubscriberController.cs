@@ -8,8 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SubscriberAPI.Data;
 using SubscriberAPI.Models;
-using System.Xml.Serialization;
-using System.Xml;
 using System.Text;
 
 namespace SubscriberAPI.Controllers
@@ -26,38 +24,10 @@ namespace SubscriberAPI.Controllers
         }
 
         // GET: api/Subscriber
-        [HttpGet("{xml=false}")]
+        [HttpGet]
         public async Task<ActionResult<IEnumerable<SubscriberModel>>> GetSubscribers([FromQuery] bool xml)
         {
-			if (xml)
-			{
-                var subscribers = await _context.Subscribers.ToListAsync();
-                string xmlString = string.Empty;
-
-                XmlSerializer serializer = new XmlSerializer(typeof(List<SubscriberModel>));
-                using (var sww = new StringWriter())
-                {
-                    using XmlWriter writer = XmlWriter.Create(sww);
-                    serializer.Serialize(writer, subscribers);
-                    xmlString = sww.ToString();
-                }
-
-                var cd = new System.Net.Mime.ContentDisposition
-                {
-					// for example foo.bak
-					FileName = "subscribers.xml",
-
-					// always prompt the user for downloading, set to true if you want 
-					// the browser to try to show the file inline
-					Inline = false,
-                };
-                Response.Headers.Add("Content-Disposition", cd.ToString());
-				return File(Encoding.UTF8.GetBytes(xmlString), "application/xml");
-			}
-			else
-            {
-                return await _context.Subscribers.ToListAsync();
-            }
+            return await _context.Subscribers.ToListAsync();
         }
 
         // GET: api/Subscriber/5
@@ -107,38 +77,17 @@ namespace SubscriberAPI.Controllers
 
         // POST: api/Subscriber
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost("{xml=false}")]
-        public async Task<ActionResult<SubscriberModel>> PostSubscriberModel(bool xml, [FromForm]IFormFile uploadFile, SubscriberModel subscriberModel)
+        [HttpPost]
+        public async Task<ActionResult<SubscriberModel>> PostSubscriberModel(SubscriberModel subscriberModel)
         {
-            List<SubscriberModel> subscriberList;
+            _context.Subscribers.Add(subscriberModel);
+            await _context.SaveChangesAsync();
 
-
-            if (uploadFile is not null && xml)
-			{
-                if (uploadFile.Length > 0)
-                {
-
-                    XmlSerializer serializer = new(typeof(List<SubscriberModel>));
-
-					subscriberList = serializer.Deserialize(uploadFile.OpenReadStream()) as List<SubscriberModel>;
-
-                    _context.Subscribers.AddRange(subscriberList);
-					await _context.SaveChangesAsync();
-                    return Ok();
-                }
-				return BadRequest();
-			}
-			else
-			{
-                _context.Subscribers.Add(subscriberModel);
-                await _context.SaveChangesAsync();
-
-                return CreatedAtAction("GetSubscriberModel", new { id = subscriberModel.Su_Id }, subscriberModel);
-            }
+            return CreatedAtAction("GetSubscriberModel", new { id = subscriberModel.Su_Id }, subscriberModel);
         }
 
-        // DELETE: api/Subscriber/5
-        [HttpDelete("{id}")]
+		// DELETE: api/Subscriber/5
+		[HttpDelete("{id}")]
         public async Task<IActionResult> DeleteSubscriberModel(int id)
         {
             var subscriberModel = await _context.Subscribers.FindAsync(id);

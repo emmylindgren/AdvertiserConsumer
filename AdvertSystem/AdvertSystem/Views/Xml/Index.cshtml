@@ -7,13 +7,16 @@
 
 <h3>Filhantering</h3>
 
-<a href="https://localhost:7044/api/subscriber?xml=true" class="btn btn-primary" download="subscribers.xml"> Hämta fil med prenumeranter </a>
+<a href="https://localhost:7044/api/xml/" class="btn btn-primary" download="subscribers.xml"> Hämta fil med prenumeranter </a>
 
 <div class="mb-3">
-   <form method="post" action="https://localhost:7044/api/subscriber?xml=true" enctype="multipart/form-data">
-      <label class="form-label">Ladda upp fil med prenumeranter (.xml)</label>
+   <form method="post" enctype="multipart/form-data" action="">
+      <label class="form-label" for="uploadFile">Ladda upp fil med prenumeranter (.xml)</label>
       <input class="form-control" accept="text/xml" type="file" name="uploadFile">
 	
       <input class="btn-primary btn" type="submit"/>
   </form>
 </div>
+
+<p class="text-danger">@TempData["Error"]</p>
+<p class="text-success">@TempData["Success"]</p>
