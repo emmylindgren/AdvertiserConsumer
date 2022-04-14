@@ -8,22 +8,74 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using AdvertSystem.Data;
 using AdvertSystem.Models;
+using Newtonsoft.Json;
 
 namespace AdvertSystem.Controllers
 {
     public class AdController : Controller
     {
         private readonly Database _context;
+        private HttpClient _httpClient;
+        private string _apiKey = "f6297919273b7f185ed0ad9d1b51eac0";
+        private static dynamic exchangeRateValues;
+
+        private List<SelectListItem> exchangeRates = new List<SelectListItem> {
+            new SelectListItem(){Text="Amerikansk Dollar", Value="USD"},
+			new SelectListItem(){Text="Euro", Value="EUR"},
+			new SelectListItem(){Text="Brittiskt Pund", Value="GBP"},
+			new SelectListItem(){Text="Japansk Yen", Value="JPY"},
+			new SelectListItem(){Text="Svensk Krona", Value="SEK"},
+            new SelectListItem(){Text="Norsk Krona", Value="NOK"},
+            new SelectListItem(){Text="Rysk Rubel", Value="RUB"},
+            new SelectListItem(){Text="Dansk Krona", Value="DKK"},
+        };
 
         public AdController(Database context)
         {
-            _context = context;
+			_httpClient = new HttpClient();
+            _httpClient.BaseAddress = new Uri("http://api.exchangeratesapi.io/v1/");
+			_context = context;
         }
 
         // GET: Ad
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Ads.Include(m => m.Ads_Annonsor).ThenInclude(annonsor => annonsor.An_CoId).ToListAsync());
+			ViewBag.exchangeRates = exchangeRates;
+
+			return View(await _context.Ads.Include(m => m.Ads_Annonsor).ThenInclude(annonsor => annonsor.An_CoId).ToListAsync());
+        }
+
+        // GET: Ad
+        public async Task<IActionResult> Index1(string currency)
+        {
+            ViewBag.exchangeRates = exchangeRates;
+
+            string url = "latest?access_key=" + _apiKey + "&symbols=";
+
+            if(exchangeRateValues is null)
+			{
+                for (int i = 0; i < exchangeRates.Count; i++)
+                {
+                    if (i == exchangeRates.Count - 1)
+                    {
+                        url += exchangeRates[i].Value;
+                    }
+                    else
+                    {
+                        url += exchangeRates[i].Value + ",";
+                    }
+                }
+				
+                var response = await _httpClient.GetAsync(url);
+                string jsonString = await response.Content.ReadAsStringAsync();
+				exchangeRateValues = JsonConvert.DeserializeObject(jsonString);
+			}
+            double swe = exchangeRateValues.rates["SEK"];
+            double eur = 1 / swe;
+			ViewBag.exchangeRate = eur* (double)exchangeRateValues.rates[currency];
+            ViewBag.currencyName = currency;
+
+            return View("Index",await _context.Ads.Include(m => m.Ads_Annonsor).ThenInclude(annonsor => annonsor.An_CoId).ToListAsync());
         }
 
         // GET: Ad/Details/5

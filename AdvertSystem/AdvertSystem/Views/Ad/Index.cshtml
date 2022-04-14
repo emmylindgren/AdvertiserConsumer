@@ -2,9 +2,40 @@
 
 @{
     ViewData["Title"] = "Index";
+    List<SelectListItem> exchangeRates = (List<SelectListItem>) ViewBag.ExchangeRates;
+    if(ViewBag.exchangeRate is null ){
+        ViewBag.exchangeRate = 1;
+    }
+    if(ViewBag.currencyName is null ){
+        ViewBag.currencyName = "SEK";
+    }
+	
 }
 
 <h1>Annonser</h1>
+
+<form action="/Ad/Index1" class="m-4">
+    <h6>Valuta</h6>
+    <div class="form-group" style="width: 300px; display: flex; flex-direction: row; gap: 10px;">
+    
+        <select class="form-control" name="currency">
+            @foreach (SelectListItem item in exchangeRates)
+            {
+                if(item.Value == ViewBag.currencyName)
+                {
+                    <option value="@item.Value" selected>@item.Text</option>
+                }
+                else
+                {
+                    <option value="@item.Value">@item.Text</option>
+                }
+                
+            }
+        </select>
+	
+        <input type="submit" class="btn btn-primary"/>
+    </div>
+</form>
 
 <div style="display: flex; flex-direction: row; flex-wrap: wrap">
     @if(Model.Count() == 0)
@@ -17,7 +48,12 @@
 		<h5>@Html.DisplayFor(modelItem => item.Ads_Title)</h5>
 		<p>@Html.DisplayFor(modelItem => item.Ads_Content)</p>
 		
-        <h5 class="text-success mb-4">@Html.DisplayFor(modelItem => item.Ads_ProductPrice) kr</h5>
+        @{
+			var exchangeRate = ViewBag.exchangeRate;
+			var price = item.Ads_ProductPrice;
+			int priceInCurrency = (int)(price * exchangeRate);
+        }
+        <h5 class="text-success mb-4">@(priceInCurrency) @ViewBag.currencyName</h5>
 		
         @if(item.Ads_Annonsor.An_CoId == null){
             <h5 class="text-secondary">Privatannons</h5>
