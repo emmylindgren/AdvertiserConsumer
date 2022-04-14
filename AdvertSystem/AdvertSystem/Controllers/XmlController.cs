@@ -15,12 +15,11 @@ namespace AdvertSystem.Controllers
 			HttpClient client = new();
 			var file = new StreamContent(uploadFile.OpenReadStream());
 			file.Headers.ContentType = new MediaTypeHeaderValue("multipart/form-data");
-			var response = await client.PostAsync(
-				"https://localhost:7044/api/xml/",
-				new MultipartFormDataContent {
-					
-					{ file,"uploadFile" } }
-				);
+
+			var content = new MultipartFormDataContent();
+			content.Add(file, "uploadFile", uploadFile.FileName);
+
+			var response = await client.PostAsync("https://localhost:7044/api/xml/", content);
 
 			if (response.IsSuccessStatusCode)
 			{
